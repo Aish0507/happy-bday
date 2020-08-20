@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>happy-birthday</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --tongue: #c12115;
+            --pupil: #fff;
+            --icing: #f2f2f2;
+            --stroke: #1a1a1a;
+        }
+
+        body {
+            --frosting: hsl(var(--frosting-hue, 0), 100%, 55%);
+            --lightness: 50;
+            --flame: 0;
+            --glow-hue: 40;
+            --glow-saturation: 50;
+            --glow-lightness: 35;
+            --glow-alpha: 0.4;
+            --transparency-alpha: 0;
+            --glow: hsla(var(--glow-hue), calc(var(--glow-saturation) * 1%), calc(var(--glow-lightness) * 1%), var(--glow-alpha));
+            --transparent: hsla(0, 0%, 0%, var(--transparency-alpha));
+            display: -webkit-box;
+            display: flex;
+            overflow: hidden;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: hsl(180, 30%, calc(var(--lightness, 50) * 1%));
+        }
+
+        .whitespace {
+            width: 7px;
+        }
+
+        .birthday-button {
+            position: relative;
+            -webkit-transform: scale(0.6);
+            transform: scale(0.6);
+            cursor: pointer;
+        }
+
+        .birthday-button__text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            display: -webkit-box;
+            display: flex;
+            text-align: center;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-family: sans-serif;
+            font-weight: bold;
+        }
+
+        .birthday-button__text .char {
+            display: inline-block;
+            color: hsl(var(--hue, 0), calc(var(--char-sat, 0) * 1%), calc(var(--char-light, 0) * 1%));
+        }
+
+        .birthday-button:before {
+            content: '';
+            position: absolute;
+            height: 240px;
+            width: 240px;
+            background: radial-gradient(var(--glow), var(--transparent) 30%), radial-gradient(var(--glow), var(--transparent) 50%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -70%) scale(calc(var(--flame) * 3));
+            transform: translate(-50%, -70%) scale(calc(var(--flame) * 3));
+            z-index: 2;
+            -webkit-filter: blur(15px);
+            filter: blur(15px);
+            opacity: var(--flame);
+        }
+
+        .birthday-button:after {
+            content: '';
+            height: 30px;
+            width: 400px;
+            -webkit-filter: blur(15px);
+            filter: blur(15px);
+            position: absolute;
+            background: radial-gradient(var(--glow), var(--transparent) 20%), radial-gradient(var(--glow), var(--transparent));
+            top: 100%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%) scale(calc(var(--flame) * 1));
+            transform: translate(-50%, -50%) scale(calc(var(--flame) * 1));
+            opacity: var(--flame);
+        }
+
+        .birthday-button__button {
+            width: 240px;
+            height: 100px;
+            position: relative;
+            border: 0;
+            background: var(--icing);
+            border-radius: 14px;
+            cursor: pointer;
+        }
+
+        .birthday-button__cake {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            -webkit-transform: translate(-50%, 0);
+            transform: translate(-50%, 0);
+            width: 289.5px;
+            display: none;
+        }
+
+        .cake__eye-body {
+            fill: var(--stroke);
+        }
+
+        .cake__eye-pupil {
+            fill: var(--pupil);
+        }
+
+        .cake__tongue {
+            fill: var(--tongue);
+        }
+
+        .cake__mouth-opening {
+            fill: var(--stroke);
+            stroke: var(--stroke);
+        }
+
+        .cake__sprinkle {
+            --sprinkle: hsl(var(--sprinkle-hue, 0), 100%, 75%);
+            fill: var(--sprinkle);
+        }
+
+        .cake__frosting--start {
+            fill: var(--frosting);
+        }
+
+        .cake__frosting--duplicate {
+            fill: var(--frosting);
+        }
+
+        .candle__flame {
+            opacity: var(--flame, 0);
+        }
+
+        .candle__flame-outer {
+            fill: #ff711f;
+        }
+
+        .candle__flame-inner {
+            fill: #edca1d;
+        }
+
+        .face__stroke {
+            stroke: var(--stroke);
+        }
+
+        .cake__candle:nth-of-type(1) {
+            --flame: 0;
+        }
+
+        .cake__candle:nth-of-type(2) {
+            --flame: 0;
+        }
+
+        .cake__candle:nth-of-type(3) {
+            --flame: 0;
+        }
+
+        label {
+            height: 44px;
+            width: 44px;
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            cursor: pointer;
+        }
+
+        label>svg {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        label path {
+            fill: #476b6b;
+        }
+
+        label svg:nth-of-type(1) {
+            display: none;
+        }
+
+        [type='checkbox'] {
+            height: 0;
+            width: 0;
+            position: absolute;
+            top: 0;
+            left: 100%;
+        }
+
+        :checked~label svg:nth-of-type(1) {
+            display: block;
+        }
+
+        :checked~label svg:nth-of-type(2) {
+            display: none;
+        }
+    </style>
+</head>
+
+<body translate="no"
+    style="--flame:0; --transparency-alpha:0; --glow-alpha:0.4; --glow-lightness:35; --glow-saturation:50; --frosting-hue:238.418; --lightness:50;">
+    <div class="birthday-button" style="transform: scale(0.6, 0.6);">
+        <button class="birthday-button__button">
+            <svg class="birthday-button__cake" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 76.609 47.643" style="display: none;">
+                <defs>
+                    <g id="candle" transform="translate(-48.82 -137.74)">
+                        <rect ry=".567" y="147.888" x="72.548" height="12.001" width="4.252" fill="#ececec"></rect>
+                        <g class="candle__flame">
+                            <path class="candle__flame-outer"
+                                d="M73.6 146.13 C73.15 147.38 73.71 148.14 74.55 148.14 75.38 148.14 76.02 147.85 75.86 146.53 75.57 144.95 75.64 143 74.32 142.78 73.21 142.67 74.44 144.11 73.6 146.13 "
+                                fill="#f60"
+                                data-original="M75.672 145.92c.608 1.207.086 2.224-.749 2.224s-1.512-.037-1.512-1.388.558-3.566 1.98-3.973c1.007-.288-.855.884.281 3.138z">
+                            </path>
+                            <path class="candle__flame-inner"
+                                d="M74.23 146.51 C73.96 147.06 74.14 147.53 74.54 147.57 74.93 147.61 75.18 147.24 75.18 146.64 74.98 146.39 75.27 145.17 74.69 144.99 74.19 144.9 74.79 145.81 74.23 146.51 "
+                                fill="#ff0"
+                                data-original="M75.081 146.449c.41.51.266 1.043-.13 1.128-.394.084-.682-.228-.822-.866 0 0-.13-1.382.502-1.719.447-.238-.315.505.45 1.457z">
+                            </path>
+                        </g>
+                        <g style="display: none">
+                            <path id="flame-outer"
+                                d="M73.676 145.92c-.609 1.207-.086 2.224.749 2.224s1.511-.037 1.511-1.388-.557-3.566-1.98-3.973c-1.006-.288.856.884-.28 3.138z"
+                                fill="#f60"></path>
+                            <path id="flame-inner"
+                                d="M74.267 146.449c-.41.51-.266 1.043.129 1.128.395.084.683-.228.823-.866 0 0 .13-1.382-.502-1.719-.447-.238.315.505-.45 1.457z"
+                                fill="#ff0"></path>
+                        </g>
+                    </g>
+                    <clipPath id="face-clip">
+                        <rect transform="translate(-48.82 -138.799)" width="63.5" height="26.458" x="55.374" y="159.984"
+                            ry="3.402"></rect>
+                    </clipPath>
+                    <clipPath id="sprinkle-clip">
+                        <rect width="63.5" height="26.458" x="55.374" y="159.984" ry="3.402"></rect>
+                    </clipPath>
+                    <clipPath id="frosting-clip">
+                        <path
+                            d="m 58.311339,159.19367 c -1.915439,0 -3.331523,2.04311 -3.986711,3.74446 -0.778328,2.02111 -0.761971,4.73695 0.529167,6.47582 0.861406,1.16012 2.614079,1.3182 4.033715,1.5875 1.321013,0.25059 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344571,0 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344571,0 2.689143,0 4.033714,0 1.344572,0 2.689143,0 4.033715,0 1.344572,0 2.689143,0 4.033715,0 1.344573,0 2.689143,0 4.033713,0 1.34457,0 2.68915,0 4.03372,0 1.34457,0 2.68914,0 4.03371,0 1.34457,0 2.71271,0.25059 4.03372,0 1.41963,-0.2693 3.17231,-0.42738 4.03371,-1.5875 1.29114,-1.73887 1.3075,-4.45471 0.52917,-6.47582 -0.65519,-1.70135 -2.07128,-3.74446 -3.98672,-3.74446 z"
+                            style="fill:#ff0041;fill-opacity:0.53424659;fill-rule:nonzero;stroke:none;stroke-width:0.90433162;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1">
+                        </path>
+                    </clipPath>
+                    <g id="sprinkles" transform="translate(63.93)">
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,52.17823,183.58583)" ry=".567"
+                            y="167.592" x="-91.837" height="1.228" width="3.307"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:84.3938;"
+                            data-svg-origin="-90.18349802494049 168.20601046085358"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,-179.65763,-37.38143)" ry=".567"
+                            y="165.35" x="76.642" height="1.228" width="3.307"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:267.311;"
+                            data-svg-origin="78.29549825191498 165.96400606632233"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,10.85568,183.75706)" width="3.307"
+                            height="1.228" x="182.37" y="3.842" ry=".567"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:326.233;"
+                            data-svg-origin="184.02349507808685 4.455999732017517"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,2.99689,184.31583)" ry=".567"
+                            y="-137.013" x="122.349" height="1.228" width="3.307"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:157.416;"
+                            data-svg-origin="124.00249898433685 -136.39900052547455"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,-1.43404,184.19275)" width="3.307"
+                            height="1.228" x="-90.997" y="160.466" ry=".567"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:80.5196;"
+                            data-svg-origin="-89.34349405765533 161.08000338077545"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,7.22698,184.22155)" ry=".567"
+                            y="-124.272" x="-138.396" height="1.228" width="3.307"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:286.573;"
+                            data-svg-origin="-136.74249613285065 -123.65799558162689"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,14.88128,184.31626)" width="3.307"
+                            height="1.228" x="-101.107" y="155.28" ry=".567"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:199.381;"
+                            data-svg-origin="-99.45350229740143 155.89399874210358"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,24.52183,183.57622)" ry=".567" y="77.322"
+                            x="-169.664" height="1.228" width="3.307"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:299.555;"
+                            data-svg-origin="-168.0105015039444 77.93599855899811"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,20.36218,184.03269)" width="3.307"
+                            height="1.228" x="124.338" y="135.065" ry=".567"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:222.285;"
+                            data-svg-origin="125.99149739742279 135.67900240421295"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,28.69758,184.31552)" ry=".567"
+                            y="150.009" x="-111.692" height="1.228" width="3.307"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:104.764;"
+                            data-svg-origin="-110.03850138187408 150.62300264835358"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,34.09274,184.01466)" width="3.307"
+                            height="1.228" x="119.879" y="141.701" ry=".567"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:80.0519;"
+                            data-svg-origin="121.53250539302826 142.315003991127"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,43.96713,184.18594)" ry=".567"
+                            y="139.024" x="-129.555" height="1.228" width="3.307"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:22.4253;"
+                            data-svg-origin="-127.90150797367096 139.638002038002"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,38.99776,184.50511)" width="3.307"
+                            height="1.228" x="-60.133" y="178.671" ry=".567"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:30.9311;"
+                            data-svg-origin="-58.47950327396393 179.28498995304108"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,47.86088,183.99448)" ry=".567" y="95.647"
+                            x="162.293" height="1.228" width="3.307"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:94.0872;"
+                            data-svg-origin="163.94649922847748 96.2609955072403"></rect>
+                        <rect class="cake__sprinkle" transform="matrix(0,0,0,0,-5.87924,183.99449)" ry=".567"
+                            y="133.647" x="124.293" height="1.228" width="3.307"
+                            style="transform-origin: 0px 0px; --sprinkle-hue:46.4527;"
+                            data-svg-origin="125.94650685787201 134.26100313663483"></rect>
+                    </g>
+                    <path id="frosting"
+                        d="M58.311 159.194c-1.915 0-3.283-.087-3.986 1.098-.392.661-.073 1.766.529 2.243 1.054.834 2.689 0 4.034 0H115.36c1.344 0 2.979.834 4.033 0 .602-.477.921-1.582.53-2.243-.703-1.185-2.072-1.098-3.987-1.098z"
+                        style="transform-origin: 0px 0px;" data-svg-origin="87.1236686706543 159.5638900756836"
+                        transform="matrix(0,0,0,0,87.12367,159.56389)"></path>
+                    <path class="cake__frosting cake__frosting--end"
+                        d="M58.311 159.194c-1.915 0-3.354 2.034-3.986 3.744-.57 1.537-.953 4.189.529 4.888 1.454.687 2.425-2.645 4.034-2.645 1.608 0 2.425 2.645 4.033 2.645 1.608 0 2.426-2.645 4.034-2.645 1.608 0 2.426 2.645 4.034 2.645 1.608 0 2.425-2.645 4.033-2.645 1.608 0 2.426 2.645 4.034 2.645 1.608 0 2.426-2.645 4.034-2.645 1.608 0 2.426 2.645 4.034 2.645 1.608 0 2.425-2.645 4.033-2.645 1.608 0 2.426 2.645 4.034 2.645 1.608 0 2.436-2.83 4.034-2.645 1.936.222 2.084 4.233 4.033 4.233 1.95 0 2.098-4.01 4.034-4.233 1.598-.184 2.426 2.645 4.034 2.645 1.608 0 2.426-2.645 4.034-2.645 1.608 0 2.58 3.332 4.033 2.645 1.482-.7 1.098-3.35.53-4.888-.633-1.71-2.072-3.744-3.987-3.744z"
+                        style="opacity: 0;"></path>
+                </defs>
+                <g class="cake-decoration" transform="translate(-48.82 -138.799)">
+                    <g class="cake__frosting-group" clip-path="url(#frosting-clip)">
+                        <g class="cake__frosting cake__frosting--start">
+                            <use xlink:href="#frosting"></use>
+                        </g>
+                        <g class="cake__frosting cake__frosting--duplicate"
+                            data-svg-origin="87.12367248535156 159.5638885498047" transform="matrix(1,0,0,1,-65,0)"
+                            style="transform-origin: 0px 0px;">
+                            <rect class="cake__frosting-patch" width="20" height="5" x="110" y="159.25"
+                                style="display: none;"></rect>
+                            <use xlink:href="#frosting"></use>
+                        </g>
+                    </g>
+                    <g class="cake__sprinkles-group" clip-path="url(#sprinkle-clip)">
+                        <g class="cake__sprinkles cake__sprinkles--initial">
+                            <use xlink:href="#sprinkles"></use>
+                        </g>
+                        <g class="cake__sprinkles cake__sprinkles--duplicate"
+                            data-svg-origin="-117.21326446533203 -39.0713996887207" transform="matrix(1,0,0,1,-65,0)"
+                            style="transform-origin: 0px 0px;">
+                            <use xlink:href="#sprinkles"></use>
+                        </g>
+                    </g>
+                </g>
+                <g clip-path="url(#face-clip)">
+                    <g class="cake__face" transform="matrix(1,0,0,1,-110,-138.799)"
+                        data-svg-origin="72.54763793945312 168.7251434326172" style="transform-origin: 0px 0px;">
+                        <g class="cake__eyes" data-svg-origin="87.1235580444336 172.11656951904297"
+                            transform="matrix(1,0,0,1,0,0)" style="transform-origin: 0px 0px;">
+                            <g class="cake__eye" transform="matrix(1.38031 0 0 1.38031 34.723 -33.58)">
+                                <circle class="cake__eye-body" cx="29.86" cy="149.022" r="2.457"></circle>
+                                <circle class="cake__eye-pupil" cx="28.773" cy="148.162" r=".756"></circle>
+                            </g>
+                            <g class="cake__eye" transform="matrix(1.38031 0 0 1.38031 57.092 -33.58)">
+                                <circle class="cake__eye-body" r="2.457" cy="149.022" cx="29.86"></circle>
+                                <circle class="cake__eye-pupil" r=".756" cy="148.162" cx="28.773"></circle>
+                            </g>
+                        </g>
+                        <g class="cake__mouth">
+                            <path class="cake__mouth-opening"
+                                d="M83.607 174.436a3.652 3.652 0 003.518 2.674 3.652 3.652 0 003.515-2.674z"
+                                stroke-width="1.1801650499999998" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path class="cake__tongue"
+                                d="M88.836 175.492a3.113 2.329 0 00-2.869 1.425 3.652 3.652 0 001.158.192 3.652 3.652 0 002.899-1.44 3.113 2.329 0 00-1.188-.177z">
+                            </path>
+                        </g>
+                    </g>
+                    <g class="cake__face--straining" transform="translate(-48.82 -138.799)" style="display: none;">
+                        <path d="M100.673 173.886l-5.248-2.073 5.713-1.466M73.574 173.886l5.248-2.073-5.713-1.466"
+                            fill="none" stroke="#000" stroke-width="1.01590816" stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                        <path d="M85.016 175.773h4.216" fill="none" stroke="#000" stroke-width=".86683468"
+                            stroke-linecap="round"></path>
+                    </g>
+                </g>
+                <g class="cake__candles">
+                    <g class="cake__candle" data-svg-origin="25.853992462158203 22.149002075195312"
+                        transform="matrix(1,0,0,0,0,22.149)" style="--flame:0; transform-origin: 0px 0px;">
+                        <use xlink:href="#candle"></use>
+                    </g>
+                    <g class="cake__candle" data-svg-origin="50.8539924621582 22.149002075195312"
+                        transform="matrix(1,0,0,0,0,22.149)" style="--flame:0; transform-origin: 0px 0px;">
+                        <use xlink:href="#candle" transform="translate(25 0)"></use>
+                    </g>
+                    <g class="cake__candle" data-svg-origin="37.8539924621582 22.649002075195312"
+                        transform="matrix(1,0,0,0,0,22.649)" style="--flame:0; transform-origin: 0px 0px;">
+                        <use xlink:href="#candle" transform="translate(12 0.5)"></use>
+                    </g>
+                </g>
+            </svg><span class="birthday-button__text words chars splitting" data-splitting=""
+                style="--word-total:2; --char-total:14;"><span class="word" data-word="Happy"
+                    style="--word-index:0;"><span class="char" data-char="H"
+                        style="--char-index:0; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:117.824;">H</span><span
+                        class="char" data-char="a"
+                        style="--char-index:1; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:225.59;">a</span><span
+                        class="char" data-char="p"
+                        style="--char-index:2; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:59.6433;">p</span><span
+                        class="char" data-char="p"
+                        style="--char-index:3; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:179.561;">p</span><span
+                        class="char" data-char="y"
+                        style="--char-index:4; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:319.807;">y</span></span><span
+                    class="whitespace"> </span><span class="word" data-word="Birthday!" style="--word-index:1;"><span
+                        class="char" data-char="B"
+                        style="--char-index:5; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:88.0485;">B</span><span
+                        class="char" data-char="i"
+                        style="--char-index:6; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:354.183;">i</span><span
+                        class="char" data-char="r"
+                        style="--char-index:7; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:337.663;">r</span><span
+                        class="char" data-char="t"
+                        style="--char-index:8; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:342.657;">t</span><span
+                        class="char" data-char="h"
+                        style="--char-index:9; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:41.472;">h</span><span
+                        class="char" data-char="d"
+                        style="--char-index:10; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:243.887;">d</span><span
+                        class="char" data-char="a"
+                        style="--char-index:11; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:61.2355;">a</span><span
+                        class="char" data-char="y"
+                        style="--char-index:12; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:43.0119;">y</span><span
+                        class="char" data-char="!"
+                        style="--char-index:13; opacity: 1; transform: translate(0px, 0px); --char-light:0; --char-sat:0; --hue:311.056;">!</span></span></span>
+        </button>
+    </div>
+    <input id="volume" type="checkbox" style="
+    display: none;
+">
+    <label for="volume" title="Toggle sound">
+        <svg viewBox="0 0 24 24">
+            <path
+                d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z">
+            </path>
+        </svg>
+        <svg viewBox="0 0 24 24">
+            <path
+                d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z">
+            </path>
+        </svg>
+    </label>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+<script src="https://unpkg.com/splitting/dist/splitting.min.js"></script>
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin3.min.js"></script>
+<script id="rendered-js">
+    const {
+        gsap,
+        gsap: { to, timeline, set, delayedCall },
+        Splitting } =
+        window;
+
+    Splitting();
+
+    const BTN = document.querySelector('.birthday-button__button');
+    const SOUNDS = {
+        CHEER: new Audio(
+            'https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/cheer.mp3'),
+
+        MATCH: new Audio(
+            'https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/match-strike-trimmed.mp3'),
+
+        TUNE: new Audio(
+            'https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/happy-birthday-trimmed.mp3'),
+
+        ON: new Audio('https://assets.codepen.io/605876/switch-on.mp3'),
+        BLOW: new Audio(
+            'https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/blow-out.mp3'),
+
+        POP: new Audio(
+            'https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/pop-trimmed.mp3'),
+
+        HORN: new Audio(
+            'https://s3-us-west-2.amazonaws.com/s.cdpn.io/605876/horn.mp3')
+    };
+
+
+
+    const EYES = document.querySelector('.cake__eyes');
+    const BLINK = eyes => {
+        gsap.set(eyes, { scaleY: 1 });
+        if (eyes.BLINK_TL) eyes.BLINK_TL.kill();
+        eyes.BLINK_TL = new gsap.timeline({
+            delay: Math.floor(Math.random() * 4) + 1,
+            onComplete: () => BLINK(eyes)
+        });
+
+        eyes.BLINK_TL.to(eyes, {
+            duration: 0.05,
+            transformOrigin: '50% 50%',
+            scaleY: 0,
+            yoyo: true,
+            repeat: 1
+        });
+
+    };
+    BLINK(EYES);
+
+    const FROSTING_TL = () =>
+        timeline().
+            to(
+                '#frosting',
+                {
+                    scaleX: 1.015,
+                    duration: 0.25
+                },
+
+                0).
+
+            to(
+                '#frosting',
+                {
+                    scaleY: 1,
+                    duration: 1
+                },
+
+                0).
+
+            to(
+                '#frosting',
+                {
+                    duration: 1,
+                    morphSVG: '.cake__frosting--end'
+                },
+
+                0);
+
+    // Extract to sprinkle
+    const SPRINKLES_TL = () =>
+        timeline().to('.cake__sprinkle', { scale: 1, duration: 0.06, stagger: 0.02 });
+    // Extract out to your own timeline
+    const SPIN_TL = () =>
+        timeline().
+            set('.cake__frosting-patch', { display: 'block' }).
+            to(
+                ['.cake__frosting--duplicate', '.cake__sprinkles--duplicate'],
+                { x: 0, duration: 1 },
+                0).
+
+            to(
+                ['.cake__frosting--start', '.cake__sprinkles--initial'],
+                { x: 65, duration: 1 },
+                0).
+
+            to('.cake__face', { duration: 1, x: -48.82 }, 0);
+
+    const flickerSpeed = 0.1;
+    const FLICKER_TL = timeline().
+        to('.candle__flame-outer', {
+            duration: flickerSpeed,
+            repeat: -1,
+            yoyo: true,
+            morphSVG: '#flame-outer'
+        }).
+
+        to(
+            '.candle__flame-inner',
+            {
+                duration: flickerSpeed,
+                repeat: -1,
+                yoyo: true,
+                morphSVG: '#flame-inner'
+            },
+
+            0);
+
+
+    const SHAKE_TL = () =>
+        timeline({ delay: 0.5 }).
+            set('.cake__face', { display: 'none' }).
+            set('.cake__face--straining', { display: 'block' }).
+            to(
+                '.birthday-button',
+                {
+                    onComplete: () => {
+                        set('.cake__face--straining', { display: 'none' });
+                        set('.cake__face', { display: 'block' });
+                    },
+                    x: 1,
+                    y: 1,
+                    repeat: 13,
+                    duration: 0.1
+                },
+
+                0).
+
+            to(
+                '.cake__candle',
+                {
+                    onComplete: () => {
+                        FLICKER_TL.play();
+                    },
+                    onStart: () => {
+                        SOUNDS.POP.play();
+                        delayedCall(0.2, () => SOUNDS.POP.play());
+                        delayedCall(0.4, () => SOUNDS.POP.play());
+                    },
+                    ease: 'Elastic.easeOut',
+                    duration: 0.2,
+                    stagger: 0.2,
+                    scaleY: 1
+                },
+
+                0.2);
+
+    const FLAME_TL = () =>
+        timeline({}).
+            to('.cake__candle', { '--flame': 1, stagger: 0.2, duration: 0.1 }).
+            to('body', { '--flame': 1, '--lightness': 5, duration: 0.2, delay: 0.2 });
+    const LIGHTS_OUT = () =>
+        timeline().to('body', {
+            onStart: () => SOUNDS.BLOW.play(),
+            delay: 0.5,
+            '--lightness': 0,
+            duration: 0.1,
+            '--glow-saturation': 0,
+            '--glow-lightness': 0,
+            '--glow-alpha': 1,
+            '--transparency-alpha': 1
+        });
+
+
+    const RESET = () => {
+        set('.char', {
+            '--hue': () => Math.random() * 360,
+            '--char-sat': 0,
+            '--char-light': 0,
+            x: 0,
+            y: 0,
+            opacity: 1
+        });
+
+        set('body', {
+            '--frosting-hue': Math.random() * 360,
+            '--glow-saturation': 50,
+            '--glow-lightness': 35,
+            '--glow-alpha': 0.4,
+            '--transparency-alpha': 0,
+            '--flame': 0
+        });
+
+        set('.cake__candle', { '--flame': 0 });
+        to('body', {
+            '--lightness': 50,
+            duration: 0.25
+        });
+
+        // SET THESE
+        set('.cake__frosting--end', { opacity: 0 });
+        set('#frosting', {
+            transformOrigin: '50% 10%',
+            scaleX: 0,
+            scaleY: 0
+        });
+
+        set('.cake__frosting-patch', { display: 'none' });
+        set(['.cake__frosting--duplicate', '.cake__sprinkles--duplicate'], { x: -65 });
+        set('.cake__face', { x: -110 });
+        set('.cake__face--straining', { display: 'none' });
+        set('.cake__sprinkle', {
+            '--sprinkle-hue': () => Math.random() * 360,
+            scale: 0,
+            transformOrigin: '50% 50%'
+        });
+
+        set('.birthday-button', { scale: 0.6, x: 0, y: 0 });
+        set('.birthday-button__cake', { display: 'none' });
+        set('.cake__candle', { scaleY: 0, transformOrigin: '50% 100%' });
+    };
+    RESET();
+    const MASTER_TL = timeline({
+        onStart: () => {
+            SOUNDS.ON.play();
+        },
+        onComplete: () => {
+            delayedCall(2, RESET);
+            BTN.removeAttribute('disabled');
+        },
+        paused: true
+    }).
+
+        set('.birthday-button__cake', { display: 'block' }).
+        to('.birthday-button', {
+            onStart: () => SOUNDS.CHEER.play(),
+            scale: 1,
+            duration: 0.2
+        }).
+
+        to('.char', { '--char-sat': 70, '--char-light': 65, duration: 0.2 }, 0).
+        to('.char', {
+            onStart: () => SOUNDS.HORN.play(),
+            delay: 0.75,
+            y: () => gsap.utils.random(-100, -200),
+            x: () => gsap.utils.random(-50, 50),
+            duration: () => gsap.utils.random(0.5, 1)
+        }).
+
+        to('.char', { opacity: 0, duration: 0.25 }, '>-0.5').
+        add(FROSTING_TL()).
+        add(SPRINKLES_TL()).
+        add(SPIN_TL()).
+        add(SHAKE_TL()).
+        add(FLAME_TL(), 'FLAME_ON').
+        add(LIGHTS_OUT(), 'LIGHTS_OUT');
+
+    SOUNDS.TUNE.onended = SOUNDS.MATCH.onended = () => MASTER_TL.play();
+    MASTER_TL.addPause('FLAME_ON', () => SOUNDS.MATCH.play());
+    MASTER_TL.addPause('LIGHTS_OUT', () => SOUNDS.TUNE.play());
+    BTN.addEventListener('click', () => {
+        BTN.setAttribute('disabled', true);
+        MASTER_TL.restart();
+    });
+
+    SOUNDS.TUNE.muted = SOUNDS.MATCH.muted = SOUNDS.HORN.muted = SOUNDS.POP.muted = SOUNDS.CHEER.muted = SOUNDS.BLOW.muted = SOUNDS.ON.muted = true;
+
+    const toggleAudio = () => {
+        SOUNDS.TUNE.muted = SOUNDS.MATCH.muted = SOUNDS.POP.muted = SOUNDS.HORN.muted = SOUNDS.CHEER.muted = SOUNDS.BLOW.muted = SOUNDS.ON.muted = !SOUNDS.
+            BLOW.muted;
+    };
+
+    document.querySelector('#volume').addEventListener('input', toggleAudio);
+//# sourceURL=pen.js
+</script>
+
+</html>
